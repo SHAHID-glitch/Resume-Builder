@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Plus, ChevronRight } from 'lucide-react';
+import { Check, Plus, ChevronRight, Menu, X } from 'lucide-react';
 
 const GetInfo = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -42,7 +42,15 @@ const GetInfo = () => {
     selectedTemplate: 0
   });
 
-  const [completedSteps, setCompletedSteps] = useState(new Set());
+  // const [completedSteps, setCompletedSteps] = useState(new Set());
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState(new Set([0, 1])); // Example
+  // const steps = [
+  //   { title: "Step 1" },
+  //   { title: "Step 2" },
+  //   { title: "Step 3" },
+  // ];
 
   const steps = [
     { title: 'Contact Info', key: 'contactInfo' },
@@ -252,7 +260,7 @@ const GetInfo = () => {
               </div>
               
               <div className="space-y-2">
-                <label className="block text-sm font-medium">YouLocation</label>
+                <label className="block text-sm font-medium">YourLocation</label>
                 <input
                   type="text"
                   placeholder='Haridwar (UTTRAKHAND)'
@@ -543,43 +551,57 @@ const GetInfo = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <div className="w-64 bg-white border-r p-6">
-        <h1 className="text-2xl font-bold mb-6">Resume Builder</h1>
-        <div className="space-y-4">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              onClick={() => setCurrentStep(index)}
-              className={`flex items-center gap-3 p-2 rounded cursor-pointer
-                ${currentStep === index ? 'bg-blue-50 text-blue-600' : ''}
-                ${completedSteps.has(index) ? 'text-green-600' : 'text-gray-600'}
-              `}
-            >
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center border
-                ${completedSteps.has(index) ? 'bg-green-100 border-green-600' : 'border-gray-400'}
-              `}>
-                {completedSteps.has(index) ? (
-                  <Check size={14} />
-                ) : (
-                  <span className="text-sm">{index + 1}</span>
-                )}
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full bg-white border-r p-6 transition-all duration-300 ease-in-out
+        ${isOpen ? "w-64" : "w-16"} md:w-64`}
+      >
+        {/* Sidebar Toggle Button (Only on Mobile) */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="absolute top-4 left-4 md:hidden p-2 rounded bg-gray-200 hover:bg-gray-300"
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        {/* Sidebar Content (Always Visible on Desktop) */}
+        <div className={`${isOpen || "hidden md:block"}`}>
+          <h1 className="text-2xl font-bold mb-6">Resume Builder</h1>
+          <div className="space-y-4">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                onClick={() => setCurrentStep(index)}
+                className={`flex items-center gap-3 p-2 rounded cursor-pointer
+                  ${currentStep === index ? "bg-blue-50 text-blue-600" : ""}
+                  ${completedSteps.has(index) ? "text-green-600" : "text-gray-600"}
+                `}
+              >
+                <div
+                  className={`w-6 h-6 rounded-full flex items-center justify-center border
+                  ${completedSteps.has(index) ? "bg-green-100 border-green-600" : "border-gray-400"}
+                `}
+                >
+                  {completedSteps.has(index) ? <Check size={14} /> : <span className="text-sm">{index + 1}</span>}
+                </div>
+                <span className="text-sm font-medium">{step.title}</span>
               </div>
-              <span className="text-sm font-medium">{step.title}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="flex-1 p-8">
+      {/* Main Content (Shifts Right when Sidebar is Open) */}
+      <div className={`flex-1 p-8 transition-all duration-300 ${isOpen ? "ml-64" : "ml-16"} md:ml-64`}>
         <div className="max-w-2xl mx-auto">
           {renderFormSection()}
-          
+
           <div className="mt-8 flex justify-end">
             <button
               onClick={handleNext}
               className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"
             >
-              {currentStep === steps.length - 1 ? 'Submit' : 'Next'}
+              {currentStep === steps.length - 1 ? "Submit" : "Next"}
               <ChevronRight size={16} />
             </button>
           </div>
@@ -587,6 +609,6 @@ const GetInfo = () => {
       </div>
     </div>
   );
-};
+}
 
 export default GetInfo;
