@@ -1,23 +1,26 @@
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from openai import OpenAI
 
-tokenizer = AutoTokenizer.from_pretrained("deepseek-ai/DeepSeek-R1")
-
-model = AutoModelForCausalLM.from_pretrained(
-    "deepseek-ai/DeepSeek-R1",
-    device_map="auto",
-    torch_dtype=torch.float16  
-   )
-
-prompt = "<|im_start|>user\ntell me about you<|im_end|>\n<|im_start|>assistant\n"
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-output = model.generate(
-    **inputs,
-    max_new_tokens=200,  # Adjust based on desired response length
-    temperature=0.7,     # Controls randomness; lower values yield more deterministic outputs
-    do_sample=True       # Enables sampling for more varied responses
+client=OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key="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",
 )
-response = tokenizer.decode(output[0][inputs['input_ids'].shape[-1]:], skip_special_tokens=True)
 
-
-print(response)
+def Describe(Prompt):
+    if Prompt == "":
+        return "No Prompt received"
+    
+    completion=client.chat.completions.create(
+        extra_headers={
+            "HTTP-Referer": "https://nishantksingh0.github.io/resume-builder-web-application/", 
+            "X-Title": "Resume Builder Web Application",
+        },
+        extra_body={},
+        model="deepseek/deepseek-r1:free",
+        messages=[
+            {
+            "role": "user",
+            "content": Prompt
+            }
+        ]
+    )
+    return completion.choices[0].message.content
