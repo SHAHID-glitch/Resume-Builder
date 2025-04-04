@@ -93,7 +93,7 @@ This project was developed as part of our semester project, focusing on user con
 ## 1. Clone the Repository:  
 
 ```bash
-git clone https://github.com/nishantksingh0/Resume-Builder.git
+git clone https://github.com/shahid_malik9368/Resume-Builder.git
 cd Resume-Builder
 ```
 
