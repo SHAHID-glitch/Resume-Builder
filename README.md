@@ -142,8 +142,8 @@ The app will now be available at `http://localhost:5173/Resume-Builder` 🚀
 
 Feel free to ask any question about project and suggest improvements. reach us out at:
 
-🔹 Email: <a href="mailto:nishantsingh.talk@gmail.com" target="_blank">nishantsingh.talk@gmail.com</a> 
+🔹 Email: <a href="mailto:sahidmalik9368@gmail.com" target="_blank">sahidmalik9368@gmail.com</a> 
 
-🔹 LinkedIn: <a href="https://www.linkedin.com/in/nishantksingh1/" target="_blank">NishantkSingh1</a>    
+🔹 LinkedIn: <a href="https://www.linkedin.com/in/shahid-malik-765113306/" target="_blank">Shahid Malik</a>    
 
 
